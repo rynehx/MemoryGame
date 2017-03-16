@@ -1,0 +1,42 @@
+{
+  "name": "memory_game",
+  "version": "1.0.0",
+  "description": "try to pick two cards of the same number",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rynehx/MemoryGame.git"
+  },
+  "keywords": [
+    "memory",
+    "cards",
+    "selection"
+  ],
+  "author": "Henry Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rynehx/MemoryGame/issues"
+  },
+  "homepage": "https://github.com/rynehx/MemoryGame#readme",
+  "dependencies": {
+    "babel-core": "^6.1.4",
+    "babel-loader": "^6.1.0",
+    "babel-preset-react": "^6.1.4",
+    "babel-preset-es2015": "^6.18.0",
+    "classname": "0.0.0",
+    "classnames": "^2.2.4",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "webpack": "^1.14.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.17.1",
+    "eslint-config-google": "^0.7.1",
+    "eslint-config-standard": "^7.0.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^2.1.1"
+  }
+}
