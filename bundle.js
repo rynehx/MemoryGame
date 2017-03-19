@@ -219,8 +219,7 @@
 	    this.players = new _TurnSelector2.default(function (currentPlayer) {
 	      currentPlayer.movesLeft = 2;
 	    });
-	    this.players.add(new _humanPlayer2.default("Henry", this.board));
-	    this.players.add(new _humanPlayer2.default("John", this.board));
+	    this.players.add(new _humanPlayer2.default("Player1", this.board));
 	  }
 
 	  _createClass(Game, [{
