@@ -219,7 +219,8 @@
 	    this.players = new _TurnSelector2.default(function (currentPlayer) {
 	      currentPlayer.movesLeft = 2;
 	    });
-	    this.players.add(new _humanPlayer2.default(this.board));
+	    this.players.add(new _humanPlayer2.default("Henry", this.board));
+	    this.players.add(new _humanPlayer2.default("John", this.board));
 	  }
 
 	  _createClass(Game, [{
@@ -246,10 +247,20 @@
 	    value: function renderMove() {
 	      if (this.players.currentPlayer().movesLeft == 0) {
 	        setTimeout(function () {
+	          var _this = this;
+
 	          // unflip board and queue next player
 	          var matchedPair = this.board.endTurn();
-	          if (matchedPair) this.players.currentPlayer().addMatchCards(matchedPair);
-	          this.updater({ game: this }, this.players.nextTurn());
+	          if (matchedPair) {
+	            this.players.currentPlayer().addMatchCards(matchedPair);
+	            this.updater({ game: this }, function () {
+	              _this.players.nextTurn(false);
+	            });
+	          } else {
+	            this.updater({ game: this }, function () {
+	              _this.players.nextTurn(true);
+	            });
+	          }
 	        }.bind(this), 500);
 	      }
 	    }
@@ -264,10 +275,7 @@
 	    key: 'leader',
 	    value: function leader() {
 	      return this.players.allPlayers().reduce(function (leader, player) {
-	        if (leader.matchedCards.length < player) {
-	          return player;
-	        }
-	        return leader;
+	        return leader.matchedCards.length < player.matchedCards.length ? player : leader;
 	      });
 	    }
 	  }]);
@@ -294,14 +302,14 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var HumanPlayer = function () {
-	  function HumanPlayer(board) {
+	  function HumanPlayer(name, board) {
 	    _classCallCheck(this, HumanPlayer);
 
 	    this.board = board;
 	    this.type = 'human';
 	    this.movesLeft = 2;
 	    this.matchedCards = [];
-	    this.name = 'Henry';
+	    this.name = name;
 	  }
 
 	  _createClass(HumanPlayer, [{
@@ -497,11 +505,12 @@
 	    }
 	  }, {
 	    key: "nextTurn",
-	    value: function nextTurn() {
-	      if (this.current) {
+	    value: function nextTurn(progressTurn) {
+	      console.log(progressTurn);
+	      if (progressTurn) {
 	        this.current = this.current.next;
-	        this.cb(this.currentPlayer());
 	      }
+	      this.cb(this.currentPlayer());
 	    }
 	  }, {
 	    key: "currentPlayer",
@@ -604,6 +613,7 @@
 	  var completeBoards = document.getElementsByClassName('player-completed-container');
 	  Array.prototype.forEach.call(completeBoards, function (playerCompleteBoard, j) {
 	    // TODO: add displacement for each player
+	    var playerDisplacer = j * (2 * window.innerHeight * 0.7 / 4 + playerNameSpace);
 	    if (playerCompleteBoard.children) {
 	      Array.prototype.forEach.call(playerCompleteBoard.children, function (el, i) {
 	        var card1 = el.children[0];
@@ -619,10 +629,10 @@
 	        var col = i % 13;
 	        var row = Math.floor(i / 13);
 	        card1.style.left = col * window.innerWidth / 13 + 'px';
-	        card1.style.top = playerNameSpace + row * window.innerHeight * 0.7 / 4 + 'px';
+	        card1.style.top = playerNameSpace + row * window.innerHeight * 0.7 / 4 + j * playerDisplacer + 'px';
 
 	        card2.style.left = col * window.innerWidth / 13 + window.innerWidth / 13 * (1 / 6) + 'px';
-	        card2.style.top = playerNameSpace + row * window.innerHeight * 0.7 / 4 + window.innerHeight * 0.7 / 4 * (1 / 6) + 'px';
+	        card2.style.top = playerNameSpace + row * window.innerHeight * 0.7 / 4 + window.innerHeight * 0.7 / 4 * (1 / 6) + j * playerDisplacer + 'px';
 	      });
 	    }
 	  });
@@ -15288,7 +15298,7 @@
 	 *
 	 * @providesModule shallowEqual
 	 * @typechecks
-	 *
+	 * 
 	 */
 
 	'use strict';
